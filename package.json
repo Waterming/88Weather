@@ -1,0 +1,12 @@
+{
+  "name": "88Weather",
+  "version": "1.0.0",
+  "description": "88天气微信小程序",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "WinMin",
+  "license": "ISC"
+}

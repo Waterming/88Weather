@@ -1,0 +1,24 @@
+/* pages/search/search.wxss */
+.header {
+  border-bottom: 1rpx solid #aaa;
+  width: 100%;
+}
+.search {
+  font-size:40rpx;
+  padding:20rpx;
+  height:120rpx;
+}
+.cities-list{
+  width:100%;
+  margin-top:20rpx;
+}
+.city {
+  display: flex;
+  height:100rpx;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 15rpx;
+  border-bottom: 1rpx solid #aaa;
+  background-color:#eee;
+}

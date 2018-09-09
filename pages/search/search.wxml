@@ -1,0 +1,14 @@
+<!--pages/search/search.wxml-->
+<view class="container">
+    <view class="header">
+      <input class="search" placeholder="搜索城市" auto-focus bindblur="toSearch"/>
+      <ul class="cities-list">
+        <li class="city" wx:if="{{cityLists.length === 0}}">暂无数据</li>
+        <li class="city" wx:for="{{cityLists}}" wx:key="{{item.cid}}" data-city="{{item}}" bindtap="selectCity">
+          <text>{{item.location}}</text>
+          <text>{{item.cnty+' '+item.admin_area+' '+item.parent_city}}</text>
+        </li>
+      </ul>
+    </view>
+</view>
+

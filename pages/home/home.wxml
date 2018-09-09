@@ -1,0 +1,15 @@
+<!--pages/home/home.wxml-->
+<View class="container">
+  <image class="logo" src="../../images/logo.png" />
+  <view wx:if="{{weatherData.basic}}" class="main">
+    <text>{{weatherData.basic.location}}</text> 
+    <view class="feel"><text>{{weatherData.now.fl}}</text>
+    <text>°C</text></view>
+    <text>{{weatherData.now.cond_txt}}</text>
+  </view>
+  <view wx:else class="main">请点击“我的”选择城市</view>
+  <view wx:if="{{weatherData.basic}}" class="tip">
+    <text>{{weatherData.basic.cnty + ' ' +          weatherData.basic.admin_area + ' ' + weatherData.basic.parent_city}}</text>
+    <text>更新时间：{{weatherData.update.loc}}</text>
+  </view>
+</View>

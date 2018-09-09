@@ -1,0 +1,41 @@
+/* pages/user/user.wxss */
+.userinfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.userinfo-avatar {
+  width: 128rpx;
+  height: 128rpx;
+  margin: 20rpx;
+  border-radius: 50%;
+}
+
+.userinfo-nickname {
+  color: #aaa;
+}
+.cities-list{
+  width:100%;
+}
+.city {
+  display: flex;
+  height:120rpx;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 15rpx;
+  border-bottom: 1rpx solid #aaa;
+}
+.options {
+  width:320rpx;
+  flex-direction:row;
+  display:flex;
+  align-items: center;
+}
+.add-icon{
+  width:150rpx;
+  height:150rpx;
+  position:fixed;
+  bottom:30rpx;
+}

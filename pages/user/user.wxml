@@ -1,0 +1,21 @@
+<!--pages/user/user.wxml-->
+<view class="container">
+  <view class="userinfo">
+    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
+    <block wx:else>
+      <image  class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
+      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+    </block>
+  </view>
+  <view class="cities-list">
+  <view class="city" wx:for="{{cities}}" wx:key="{{item.cid}}" id="{{item.cid}}" bindtap="toHome">
+    <text>{{item.location}}</text>
+    <view class="options">
+    <text>默认</text>
+    <switch checked="{{defaultCity === item.cid}}" id="{{item.cid}}" catchtap="switchChange"/>
+    <button id="{{item.cid}}" catchtap='todelete' type="warn" size="mini">删除</button>
+    </view>
+  </view>
+  </view>
+  <image src="../../images/add.png" class="add-icon" bindtap='addCity'/>
+</view>

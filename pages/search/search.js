@@ -1,4 +1,5 @@
 // pages/search/search.js
+const app = getApp();
 Page({
 
   /**
@@ -77,18 +78,14 @@ Page({
     })
   },
   toSearch: function(e) {
-    wx.request({
-      url: 'https://search.heweather.com/find',
-      data: {
-        location: e.detail.value,
-        key: 'ed6456e6266d4e6bb5155e1cbd9547a9'
-      },
-      success: (res) => {
-        if(res.data.HeWeather6[0].status === 'ok'){
-          this.setData({
-            cityLists: res.data.HeWeather6[0].basic
-          })
-        }
+    app.Api.sendRequest('https://search.heweather.com/find', {
+      location: e.detail.value,
+      key: 'ed6456e6266d4e6bb5155e1cbd9547a9'})
+    .then(res => {
+      if (res.data.HeWeather6[0].status === 'ok') {
+        this.setData({
+          cityLists: res.data.HeWeather6[0].basic
+        })
       }
     })
   }

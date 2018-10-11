@@ -28,14 +28,13 @@ Page({
         success: (res) => {
           if (res.authSetting['scope.userInfo']) {
             // 已经授权，可以直接调用 getUserInfo 获取头像昵称
-            wx.getUserInfo({
-              success: (res) => {
-                app.globalData.userInfo = res.userInfo;
-                this.setData({
-                  hasUserInfo: true,
-                  userInfo: res.userInfo
-                })
-              }
+            app.Api.getUserInfo()
+            .then(res => {
+              app.globalData.userInfo = res.userInfo;
+              this.setData({
+                hasUserInfo: true,
+                userInfo: res.userInfo
+              })
             })
           }
         }

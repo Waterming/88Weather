@@ -13,6 +13,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    this.getCurrentCity()
   },
 
   /**
@@ -63,19 +64,39 @@ Page({
   onShareAppMessage: function () {
   
   },
+  getCurrentCity: function() {
+    app.Api
+    .getLocation()
+    .then(res => {
+      const { latitude, longitude } = res;
+      return app.Weather.getCurrentCity(longitude + ','+latitude)
+    })
+    .then(res => {
+      const cityId = wx.getStorageSync('defaultCity');
+      const { cid, location } = res.data.HeWeather6[0].basic[0];
+      if (cityId !== cid){
+        return app.Api.showModal({ content: '是否切换到当前城市：'+location, data: cid })
+      }else {
+        return Promise.reject();
+      }
+    })
+    .then(res => {
+      wx.setStorageSync('defaultCity', res);
+      this.getWeatherData();
+    })
+    .catch(err => {
+      
+    })
+  },
   getWeatherData: function() {
     const cityId = wx.getStorageSync('defaultCity');
-    wx.request({
-      url: 'https://free-api.heweather.com/s6/weather/now',
-      data: {
-        location: cityId,
-        key: 'ed6456e6266d4e6bb5155e1cbd9547a9'
-      },
-      success: (res) => {
+    app.Api.sendRequest('https://free-api.heweather.com/s6/weather/now', {
+      location: cityId,
+      key: 'ed6456e6266d4e6bb5155e1cbd9547a9'})
+      .then(res => {
         this.setData({
           weatherData: res.data.HeWeather6[0]
         })
-      }
-    })
+      })
   }
 })

@@ -8,12 +8,12 @@
     </block>
   </view>
   <view class="cities-list">
-  <view class="city" wx:for="{{cities}}" wx:key="{{item.cid}}" id="{{item.cid}}" bindtap="toHome">
-    <text>{{item.location}}</text>
+  <view class="city" wx:for="{{cities}}" wx:key="{{item.id}}" id="{{item.id}}" bindtap="toHome">
+    <text>{{item.name}}</text>
     <view class="options">
     <text>默认</text>
-    <switch checked="{{defaultCity === item.cid}}" id="{{item.cid}}" catchtap="switchChange"/>
-    <button id="{{item.cid}}" catchtap='todelete' type="warn" size="mini">删除</button>
+    <switch checked="{{defaultCity.cityId === item.id}}" id="{{item.id}}" catchtap="switchChange"/>
+    <button id="{{item.id}}" catchtap='todelete' type="warn" size="mini">删除</button>
     </view>
   </view>
   </view>

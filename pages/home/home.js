@@ -1,102 +1,93 @@
 // pages/home/home.js
 const app = getApp();
 Page({
-
   /**
    * 页面的初始数据
    */
   data: {
-    weatherData: {}
+    weatherData: {},
+    cityInfo: {},
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.getCurrentCity()
+    // this.getCurrentCity();
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
-  
-  },
+  onReady: function () {},
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    this.getWeatherData();
+    const cityInfo = wx.getStorageSync("defaultCity");
+    if (cityInfo) {
+      this.getWeatherData();
+    } else {
+      this.getCurrentCity();
+    }
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {
-  
-  },
+  onHide: function () {},
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
-  
-  },
+  onUnload: function () {},
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
-  
-  },
+  onPullDownRefresh: function () {},
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
-  
-  },
+  onReachBottom: function () {},
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
-  
-  },
-  getCurrentCity: function() {
-    app.Api
-    .getLocation()
-    .then(res => {
-      const { latitude, longitude } = res;
-      return app.Weather.getCurrentCity(longitude + ','+latitude)
-    })
-    .then(res => {
-      const cityId = wx.getStorageSync('defaultCity');
-      const { cid, location } = res.data.HeWeather6[0].basic[0];
-      if (cityId !== cid){
-        return app.Api.showModal({ content: '是否切换到当前城市：'+location, data: cid })
-      }else {
-        return Promise.reject();
-      }
-    })
-    .then(res => {
-      wx.setStorageSync('defaultCity', res);
-      this.getWeatherData();
-    })
-    .catch(err => {
-      
-    })
-  },
-  getWeatherData: function() {
-    const cityId = wx.getStorageSync('defaultCity');
-    app.Api.sendRequest('https://free-api.heweather.com/s6/weather/now', {
-      location: cityId,
-      key: 'ed6456e6266d4e6bb5155e1cbd9547a9'})
-      .then(res => {
-        this.setData({
-          weatherData: res.data.HeWeather6[0]
-        })
+  onShareAppMessage: function () {},
+  getCurrentCity: function () {
+    app.Api.getLocation()
+      .then((res) => {
+        const { latitude, longitude } = res;
+        app.Api.sendRequest("https://geoapi.qweather.com/v2/city/lookup", {
+          location: longitude + "," + latitude,
+          key: "ed6456e6266d4e6bb5155e1cbd9547a9",
+        }).then((res) => {
+          const location = res.data.location[0];
+          wx.setStorageSync("defaultCity", {
+            cityName: `${location.adm2} ${location.name}`,
+            cityId: location.id,
+          });
+          this.getWeatherData();
+        });
       })
-  }
-})
+      .catch((err) => {
+        console.log(err);
+      });
+  },
+  getWeatherData: function () {
+    const cityInfo = wx.getStorageSync("defaultCity");
+    app.Api.sendRequest("https://devapi.qweather.com/v7/weather/now", {
+      location: cityInfo.cityId,
+      key: "ed6456e6266d4e6bb5155e1cbd9547a9",
+    }).then((res) => {
+      console.log("weather", res);
+      this.setData({
+        weatherData: { ...res.data.now, updateTime: res.data.updateTime },
+        cityInfo,
+      });
+    });
+  },
+});

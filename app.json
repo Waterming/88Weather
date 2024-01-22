@@ -30,5 +30,6 @@
         "selectedIconPath": "images/profile-actived.png"
       }
     ]
-  }
+  },
+  "requiredPrivateInfos":["getLocation"]
 }
